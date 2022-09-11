@@ -4,23 +4,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-user-list',
   template: `
-    <p>
-      user-list works!
-    </p>
+    <ul>
+      <app-user *ngFor="let user of users" [user]="user"></app-user>
+    </ul>
   `,
   styles: [
   ]
 })
 export class UserListComponent implements OnInit {
   users: User[] | [] = [];
-  bla: any;
-
   constructor(private userService: UsersService) { }
 
   async ngOnInit(): Promise<void> {
-    const result = await this.userService.getOrgaMembers();
-    this.bla = result.membersWithRole;
-    console.log(this.bla);
-
+    this.users = await this.userService.getOrgaMembers();
   }
 }
