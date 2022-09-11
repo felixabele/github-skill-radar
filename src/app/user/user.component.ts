@@ -10,9 +10,7 @@ import { Component, Input } from '@angular/core';
         {{ language.name }} {{ language.count }}
       </li>
     </ul>
-  `,
-  styles: [
-  ]
+  `
 })
 export class UserComponent {
   @Input() user!: User;

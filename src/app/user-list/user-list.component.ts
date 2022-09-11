@@ -4,7 +4,12 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-user-list',
   template: `
-    <input type="text" [(ngModel)]="search" placeholder="Search expert for..." />
+    <input
+      type="text"
+      [(ngModel)]="search"
+      placeholder="Search expert for..."
+      id="searchTerm"
+    />
     <ul>
       <app-user *ngFor="let user of filteredUsers" [user]="user"></app-user>
     </ul>
