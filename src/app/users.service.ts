@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { environment } from 'src/environments/environment';
 
 export interface RepositoryLanguage {
   name: string;
@@ -28,17 +29,22 @@ interface OrganizationMemberConnection {
   providedIn: 'root'
 })
 export class UsersService {
+  public users: User[] = [];
   private orgaMembersQuery: QueryRef<{ organization: any }>;
 
   constructor(private apollo: Apollo) {
     this.orgaMembersQuery = this.apollo.watchQuery({
       query: gql`
-        {
-          organization(login: "codecentric") {
-            membersWithRole(first:30) {
+        query ($login: String!, $after: String) {
+          organization(login: $login) {
+            membersWithRole(first: 15, after: $after) {
+              pageInfo {
+                endCursor
+                hasNextPage
+              }
               nodes {
                 login
-                repositories(first:30) {
+                repositories(first: 50) {
                   edges {
                     node {
                       primaryLanguage {
@@ -68,17 +74,25 @@ export class UsersService {
     return languageCount;
   }
 
-  public async getOrgaMembers(): Promise<User[]> {
-    const result = await this.orgaMembersQuery.refetch();
-    const { nodes } = result.data.organization.membersWithRole;
+  public async getOrgaMembers(after?: string): Promise<User[]> {
+    const result = await this.orgaMembersQuery.refetch({
+      login: environment.organizationName,
+      after
+    });
+    const { nodes, pageInfo } = result.data.organization.membersWithRole;
 
-    const users: User[] = nodes.map((node: OrganizationMemberConnection) => (
+    if (pageInfo.hasNextPage) {
+      await this.getOrgaMembers(pageInfo.endCursor);
+    }
+
+    const users = nodes.map((node: OrganizationMemberConnection) => (
       {
         login: node.login,
         repositoryLanguages: this.aggregatedRepositories(node.repositories.edges),
       }
     ));
 
-    return users;
+    this.users = this.users.concat(users);
+    return this.users;
   }
 }

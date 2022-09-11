@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   githubAuthToken: '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',
+  organizationName: 'codecentric',
 };
 
 /*
