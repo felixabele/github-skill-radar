@@ -66,7 +66,6 @@ export class UsersService {
 
     repositories.forEach(aggregateLanguage);
     return languageCount;
-
   }
 
   public async getOrgaMembers(): Promise<User[]> {
