@@ -11,10 +11,14 @@ import { Component, OnInit } from '@angular/core';
       id="searchTerm"
     />
     <ul>
-      <app-user *ngFor="let user of filteredUsers" [user]="user"></app-user>
+      <li *ngFor="let user of filteredUsers">
+        <app-user [user]="user"></app-user>
+      </li>
     </ul>
   `,
   styles: [
+    'ul { list-style: none; }',
+    'ul li { padding-top: 1rem; }'
   ]
 })
 export class UserListComponent implements OnInit {
