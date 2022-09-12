@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  githubAuthToken: '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', // <-- Add personal access token here
+  githubAuthToken: '', // <-- Add personal access token here
   organizationName: 'codecentric',
 };
 
