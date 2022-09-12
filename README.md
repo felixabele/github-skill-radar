@@ -17,6 +17,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - E2e test coverage
 - API fetch with observable to display results faster and improve UX when there is lots of data
 
+## setup
+
+Install dependencies: `npm install`
+Add personal GitHub-access-token (only basic organisation read permissions are necessary) to `environments/environment.ts` (`githubAuthToken`)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
